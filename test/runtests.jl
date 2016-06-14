@@ -1,5 +1,9 @@
 using ResettableStacks
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+S = ResettableStack{}(Tuple{Float64,Float64,Float64})
+
+push!(S,(0.5,0.4,0.3))
+push!(S,(0.5,0.4,0.4))
+reset!(S)
+push!(S,(0.5,0.4,0.3))
