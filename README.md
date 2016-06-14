@@ -16,6 +16,7 @@ Pkg.clone("https://github.com/ChrisRackauckas/ResettableStacks.jl.git")
 ## Usage
 
 ```
+using ResettableStacks
 S = ResettableStack{}(Tuple{Float64,Float64,Float64})
 
 push!(S,(0.5,0.4,0.3))
