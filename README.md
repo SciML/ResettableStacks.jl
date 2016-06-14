@@ -10,7 +10,7 @@ and it no longer needs to be that large (while minimizing garbage control costs)
 ## Installation
 
 ```
-Pkg.clone()
+Pkg.clone("https://github.com/ChrisRackauckas/ResettableStacks.jl.git")
 ```
 
 ## Usage
