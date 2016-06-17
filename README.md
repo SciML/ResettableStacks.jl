@@ -1,5 +1,8 @@
 # ResettableStacks
 
+[![Build Status](https://travis-ci.org/ChrisRackauckas/ResettableStacks.jl.svg?branch=master)](https://travis-ci.org/ChrisRackauckas/ResettableStacks.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/nowh4otyu1jqicm8?svg=true)](https://ci.appveyor.com/project/ChrisRackauckas/resettablestacks-jl)
+
 A ResettableStack is a stack implementation which has a `reset!` function which
 will "reset" the stack, allowing it to write over its previous data. This
 allows you to reset the stack while avoiding garbage collection which can greatly
