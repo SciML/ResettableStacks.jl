@@ -12,13 +12,22 @@ and it no longer needs to be that large (while minimizing garbage control costs)
 
 ## Installation
 
+To install the package, simply use:
+
+```julia
+Pkg.add("ResettableStacks")
+using ResettableStacks
 ```
-Pkg.clone("https://github.com/ChrisRackauckas/ResettableStacks.jl.git")
+
+For the latest version, checkout master via:
+
+```julia
+Pkg.checkout("ResettableStacks")
 ```
 
 ## Usage
 
-```
+```julia
 using ResettableStacks
 S = ResettableStack{}(Tuple{Float64,Float64,Float64})
 
