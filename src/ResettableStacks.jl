@@ -35,12 +35,12 @@ module ResettableStacks
     end
   end
 
-  start(S::ResettableStack) = s = 1
+  start(S::ResettableStack) = S.cur
   function next(S::ResettableStack,s)
-    s += 1
-    S.data[s]
+    s -= 1
+    (S.data[s+1],s)
   end
-  done(S::ResettableStack,s) = s==S.cur
+  done(S::ResettableStack,s) = s==0
 
   function reset!(S::ResettableStack)
     S.numResets += 1
