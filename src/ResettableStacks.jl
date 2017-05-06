@@ -1,3 +1,5 @@
+__precompile__()
+
 module ResettableStacks
 
   const FULL_RESET_COUNT = 10000
