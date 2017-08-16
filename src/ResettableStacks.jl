@@ -44,10 +44,10 @@ module ResettableStacks
   end
   done(S::ResettableStack,s) = s==0
 
-  function reset!(S::ResettableStack)
+  function reset!(S::ResettableStack,force_reset = false)
     S.numResets += 1
     S.cur = 0
-    if S.numResets%FULL_RESET_COUNT==0
+    if S.numResets%FULL_RESET_COUNT==0 || force_reset
       S.data = Vector{eltype(S.data)}()
     end
     nothing
