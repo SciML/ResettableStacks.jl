@@ -27,6 +27,26 @@ module ResettableStacks
     nothing
   end
 
+  safecopy(x) = copy(x)
+  safecopy(x::Void) = nothing
+
+  # For DiffEqNoiseProcess S₂ fast updates
+  function copyat_or_push!(S::ResettableStack,x::Tuple{Number,AbstractArray,Union{AbstractArray,Void}})
+    if S.cur==length(S.data)
+      S.cur+=1
+      push!(S.data,safecopy.(x))
+    else
+      S.cur+=1
+      S.data[S.cur][2] .= x[2]
+      if x[3] != nothing
+        S.data[S.cur][3] .= x[3]
+      end
+    end
+    nothing
+  end
+
+  copyat_or_push!(S::ResettableStack,x) = push!(S,x)
+
   function pop!(S::ResettableStack)
     if S.cur==length(S.data)
       S.cur-=1
