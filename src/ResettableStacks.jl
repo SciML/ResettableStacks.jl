@@ -4,6 +4,8 @@ module ResettableStacks
 
   const FULL_RESET_COUNT = 10000
 
+  using StaticArrays
+
   import Base: isempty, length, push!, pop!, start, next, done
   type ResettableStack{T}
     data::Vector{T}
@@ -37,9 +39,14 @@ module ResettableStacks
       push!(S.data,safecopy.(x))
     else
       S.cur+=1
-      S.data[S.cur][2] .= x[2]
-      if x[3] != nothing
-        S.data[S.cur][3] .= x[3]
+      curx = S.data[S.cur]
+      if typeof(curx[2]) <: SArray
+        S.data[S.cur] = (curx[1],x[2],x[3])
+      else
+        curx[2] .= x[2]
+        if x[3] != nothing
+          curx[3] .= x[3]
+        end
       end
     end
     nothing
