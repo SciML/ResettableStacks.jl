@@ -1,5 +1,6 @@
 using ResettableStacks
-using Base.Test
+using Test
+using Random
 
 S = ResettableStack{}(Tuple{Float64,Float64,Float64})
 

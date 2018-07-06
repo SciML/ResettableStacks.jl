@@ -1,10 +1,10 @@
-type ResettableStack{T}
+mutable struct ResettableStack{T}
   data::Vector{T}
   cur::Int
   numResets::Int
 end
 
-ResettableStack{T}(ty::Type{T}) = ResettableStack{T}(Vector{T}(),0,0)
+ResettableStack(ty::Type{T}) where {T} = ResettableStack{T}(Vector{T}(),0,0)
 
 isempty(S::ResettableStack) = S.cur==0
 length(S::ResettableStack)  = S.cur
@@ -22,7 +22,7 @@ end
 
 safecopy(x) = copy(x)
 safecopy(x::Union{Number,StaticArray}) = x
-safecopy(x::Void) = nothing
+safecopy(x::Nothing) = nothing
 
 # For DiffEqNoiseProcess S₂ fast updates
 function copyat_or_push!(S::ResettableStack,x)
