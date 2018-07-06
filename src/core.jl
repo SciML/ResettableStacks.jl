@@ -22,7 +22,7 @@ end
 
 safecopy(x) = copy(x)
 safecopy(x::Union{Number,StaticArray}) = x
-safecopy(x::Void) = nothing
+safecopy(x::Nothing) = nothing
 
 # For DiffEqNoiseProcess S₂ fast updates
 function copyat_or_push!(S::ResettableStack,x)
