@@ -50,12 +50,14 @@ function pop!(S::ResettableStack)
   S.data[S.cur+1]
 end
 
-start(S::ResettableStack) = S.cur
-function next(S::ResettableStack,s)
-  s -= 1
-  (S.data[s+1],s)
+function iterate(S::ResettableStack, state=S.cur)
+    if state == 0
+        return nothing
+    end
+
+    state -= 1
+    (S.data[state+1],state)
 end
-done(S::ResettableStack,s) = s==0
 
 function reset!(S::ResettableStack,force_reset = false)
   S.numResets += 1
