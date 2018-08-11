@@ -18,7 +18,7 @@ end
 
 ### Iterator tests
 s = ResettableStacks.ResettableStack{}(Float64)
-srand(100)
+Random.seed!(100)
 for i in 1:6
   push!(s,rand())
 end

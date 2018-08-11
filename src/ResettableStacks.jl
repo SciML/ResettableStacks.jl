@@ -6,7 +6,7 @@ module ResettableStacks
 
   using StaticArrays
 
-  import Base: isempty, length, push!, pop!, start, next, done
+  import Base: isempty, length, push!, pop!, iterate
 
   include("core.jl")
 
