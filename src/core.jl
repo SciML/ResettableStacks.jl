@@ -1,10 +1,13 @@
-mutable struct ResettableStack{T}
+mutable struct ResettableStack{T,iip}
   data::Vector{T}
   cur::Int
   numResets::Int
+  ResettableStack(ty::Type{T}) where {T} = new{T,true}(Vector{T}(),0,0)
+  ResettableStack{iip}(ty::Type{T}) where {T,iip} = new{T,iip}(Vector{T}(),0,0)
 end
 
-ResettableStack(ty::Type{T}) where {T} = ResettableStack{T}(Vector{T}(),0,0)
+isinplace(::ResettableStack{T,iip}) where {T,iip} = iip
+
 
 isempty(S::ResettableStack) = S.cur==0
 length(S::ResettableStack)  = S.cur
@@ -32,7 +35,7 @@ function copyat_or_push!(S::ResettableStack,x)
   else
     S.cur+=1
     curx = S.data[S.cur]
-    if typeof(curx[2]) <: Union{Number,SArray}
+    if !isinplace(S)
       S.data[S.cur] = x
     else
       curx[2] .= x[2]
