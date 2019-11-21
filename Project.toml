@@ -5,7 +5,8 @@ uuid = "ae5879a3-cd67-5da8-be7f-38c6eb64a37b"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
-julia = "≥ 1.0.0"
+StaticArrays = "0.10, 0.11, 0.12"
+julia = "1.0.0"
 
 [extras]
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
