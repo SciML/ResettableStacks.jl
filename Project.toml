@@ -1,7 +1,7 @@
 name = "ResettableStacks"
 uuid = "ae5879a3-cd67-5da8-be7f-38c6eb64a37b"
 authors = ["Chris Rackauckas <accounts@chrisrackauckas.com>"]
-version = "1.0.0"
+version = "1.1.0"
 
 [deps]
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
