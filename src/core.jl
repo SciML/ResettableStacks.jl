@@ -4,6 +4,7 @@ mutable struct ResettableStack{T,iip}
   numResets::Int
   ResettableStack(ty::Type{T}) where {T} = new{T,true}(Vector{T}(),0,0)
   ResettableStack{iip}(ty::Type{T}) where {T,iip} = new{T,iip}(Vector{T}(),0,0)
+  ResettableStack{T,iip}(data::Vector{T}, cur, numResets) where {T,iip} = new{T,iip}(data, cur, numResets)
 end
 
 isinplace(::ResettableStack{T,iip}) where {T,iip} = iip
