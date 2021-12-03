@@ -1,7 +1,6 @@
 # ResettableStacks
 
-[![Build Status](https://travis-ci.org/ChrisRackauckas/ResettableStacks.jl.svg?branch=master)](https://travis-ci.org/ChrisRackauckas/ResettableStacks.jl)
-[![Build status](https://ci.appveyor.com/api/projects/status/nowh4otyu1jqicm8?svg=true)](https://ci.appveyor.com/project/ChrisRackauckas/resettablestacks-jl)
+[![Build Status](https://github.com/SciML/ResettableStacks.jl/workflows/CI/badge.svg)](https://github.com/SciML/ResettableStacks.jl/actions?query=workflow%3ACI)
 
 [![ResettableStacks](http://pkg.julialang.org/badges/ResettableStacks_0.5.svg)](http://pkg.julialang.org/?pkg=ResettableStacks)
 [![ResettableStacks](http://pkg.julialang.org/badges/ResettableStacks_0.6.svg)](http://pkg.julialang.org/?pkg=ResettableStacks)
