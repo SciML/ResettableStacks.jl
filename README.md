@@ -31,11 +31,11 @@ Pkg.checkout("ResettableStacks")
 
 ```julia
 using ResettableStacks
-S = ResettableStack{}(Tuple{Float64,Float64,Float64})
+S = ResettableStack{}(Tuple{Float64, Float64, Float64})
 
-push!(S,(0.5,0.4,0.3))
-push!(S,(0.5,0.4,0.4))
+push!(S, (0.5, 0.4, 0.3))
+push!(S, (0.5, 0.4, 0.4))
 reset!(S)
-push!(S,(0.5,0.4,0.3))
+push!(S, (0.5, 0.4, 0.3))
 tup = pop!(S)
 ```
