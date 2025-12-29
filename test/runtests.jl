@@ -19,19 +19,22 @@ end
 ### Iterator tests
 s = ResettableStacks.ResettableStack{}(Float64)
 Random.seed!(100)
+expected_values = Float64[]
 for i in 1:6
-    push!(s, rand())
+    v = rand()
+    push!(expected_values, v)
+    push!(s, v)
 end
+# Iterator returns values in reverse (LIFO) order
+reversed_expected = reverse(expected_values)
 for (i, c) in enumerate(s)
-    @test i==1 ? c == 0.6456910432314067 : true
-    @test i==2 ? c == 0.9675998379215747 : true
-    @test i==3 ? c == 0.06719317094984745 : true
-    @test i==4 ? c == 0.6609109399808133 : true
-    @test i==5 ? c == 0.19031281518127185 : true
-    @test i==6 ? c == 0.2601250914736861 : true
+    @test c == reversed_expected[i]
 end
+@test length(collect(s)) == 6
 reset!(s)
-push!(s, rand())
+new_val = rand()
+push!(s, new_val)
 for c in s
-    @test c==0.5459681993995775
+    @test c == new_val
 end
+@test length(collect(s)) == 1
