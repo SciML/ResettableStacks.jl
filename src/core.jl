@@ -13,6 +13,7 @@ isinplace(::ResettableStack{T, iip}) where {T, iip} = iip
 
 isempty(S::ResettableStack) = S.cur==0
 length(S::ResettableStack) = S.cur
+eltype(::Type{ResettableStack{T, iip}}) where {T, iip} = T
 
 function push!(S::ResettableStack, x)
     if S.cur==length(S.data)
