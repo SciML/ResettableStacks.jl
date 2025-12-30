@@ -10,28 +10,30 @@ will "reset" the stack, allowing it to write over its previous data. This
 allows you to reset the stack while avoiding garbage collection which can greatly
 improve performance in certain use cases. Every `FULL_RESET_COUNT` resets, it
 does a full reset, which is useful if the stack got very large for some reason
-and it no longer needs to be that large (while minimizing garbage control costs).
+and it no longer needs to be that large (while minimizing garbage collection costs).
 
 ## Installation
 
 To install the package, simply use:
 
 ```julia
+using Pkg
 Pkg.add("ResettableStacks")
 using ResettableStacks
 ```
 
-For the latest version, checkout master via:
+For the latest development version:
 
 ```julia
-Pkg.checkout("ResettableStacks")
+using Pkg
+Pkg.add(url="https://github.com/SciML/ResettableStacks.jl")
 ```
 
 ## Usage
 
 ```julia
 using ResettableStacks
-S = ResettableStack{}(Tuple{Float64, Float64, Float64})
+S = ResettableStack{true}(Tuple{Float64, Float64, Float64})
 
 push!(S, (0.5, 0.4, 0.3))
 push!(S, (0.5, 0.4, 0.4))
