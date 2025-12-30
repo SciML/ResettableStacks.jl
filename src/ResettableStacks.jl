@@ -6,7 +6,7 @@ const FULL_RESET_COUNT = 10000
 
 using StaticArrays
 
-import Base: isempty, length, push!, pop!, iterate
+import Base: isempty, length, push!, pop!, iterate, eltype
 
 include("core.jl")
 
