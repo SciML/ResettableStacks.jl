@@ -2,13 +2,13 @@ __precompile__()
 
 module ResettableStacks
 
-const FULL_RESET_COUNT = 10000
+    const FULL_RESET_COUNT = 10000
 
-using StaticArrays
+    using StaticArrays
 
-import Base: isempty, length, push!, pop!, iterate, eltype
+    import Base: isempty, length, push!, pop!, iterate, eltype
 
-include("core.jl")
+    include("core.jl")
 
-export ResettableStack, reset!
+    export ResettableStack, reset!
 end # module

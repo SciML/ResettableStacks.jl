@@ -40,25 +40,25 @@ mutable struct ResettableStack{T, iip}
     ResettableStack(ty::Type{T}) where {T} = new{T, true}(Vector{T}(), 0, 0)
     ResettableStack{iip}(ty::Type{T}) where {T, iip} = new{T, iip}(Vector{T}(), 0, 0)
     function ResettableStack{T, iip}(data::Vector{T}, cur, numResets) where {T, iip}
-        new{T, iip}(data, cur, numResets)
+        return new{T, iip}(data, cur, numResets)
     end
 end
 
 isinplace(::ResettableStack{T, iip}) where {T, iip} = iip
 
-isempty(S::ResettableStack) = S.cur==0
+isempty(S::ResettableStack) = S.cur == 0
 length(S::ResettableStack) = S.cur
 eltype(::Type{ResettableStack{T, iip}}) where {T, iip} = T
 
 function push!(S::ResettableStack, x)
-    if S.cur==length(S.data)
-        S.cur+=1
+    if S.cur == length(S.data)
+        S.cur += 1
         push!(S.data, x)
     else
-        S.cur+=1
-        S.data[S.cur]=x
+        S.cur += 1
+        S.data[S.cur] = x
     end
-    nothing
+    return nothing
 end
 
 safecopy(x) = copy(x)
@@ -67,11 +67,11 @@ safecopy(x::Nothing) = nothing
 
 # For DiffEqNoiseProcess S₂ fast updates
 function copyat_or_push!(S::ResettableStack, x)
-    if S.cur==length(S.data)
-        S.cur+=1
+    if S.cur == length(S.data)
+        S.cur += 1
         push!(S.data, safecopy.(x))
     else
-        S.cur+=1
+        S.cur += 1
         curx = S.data[S.cur]
         if !isinplace(S)
             S.data[S.cur] = x
@@ -83,12 +83,12 @@ function copyat_or_push!(S::ResettableStack, x)
             S.data[S.cur] = (x[1], curx[2], curx[3])
         end
     end
-    nothing
+    return nothing
 end
 
 function pop!(S::ResettableStack)
-    S.cur-=1
-    S.data[S.cur + 1]
+    S.cur -= 1
+    return S.data[S.cur + 1]
 end
 
 function iterate(S::ResettableStack, state = S.cur)
@@ -97,7 +97,7 @@ function iterate(S::ResettableStack, state = S.cur)
     end
 
     state -= 1
-    (S.data[state + 1], state)
+    return (S.data[state + 1], state)
 end
 
 """
@@ -126,8 +126,8 @@ push!(S, 3.0)  # Reuses existing buffer
 function reset!(S::ResettableStack, force_reset = false)
     S.numResets += 1
     S.cur = 0
-    if length(S.data) > 5 && (S.numResets%FULL_RESET_COUNT==0 || force_reset)
-        resize!(S.data, max(length(S.data)÷2, 5))
+    if length(S.data) > 5 && (S.numResets % FULL_RESET_COUNT == 0 || force_reset)
+        resize!(S.data, max(length(S.data) ÷ 2, 5))
     end
-    nothing
+    return nothing
 end
