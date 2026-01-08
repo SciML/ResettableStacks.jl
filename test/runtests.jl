@@ -186,3 +186,10 @@ end
         @test_opt target_modules = (ResettableStacks,) ResettableStacks.copyat_or_push!(S, tuple)
     end
 end
+
+# ExplicitImports tests
+@testset "ExplicitImports" begin
+    using ExplicitImports
+    @test check_no_implicit_imports(ResettableStacks) === nothing
+    @test check_no_stale_explicit_imports(ResettableStacks) === nothing
+end

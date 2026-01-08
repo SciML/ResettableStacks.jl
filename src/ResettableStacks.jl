@@ -4,7 +4,7 @@ module ResettableStacks
 
     const FULL_RESET_COUNT = 10000
 
-    using StaticArrays
+    using StaticArrays: StaticArray
 
     import Base: isempty, length, push!, pop!, iterate, eltype
 
