@@ -1,5 +1,11 @@
 using Pkg
 
+using ResettableStacks
+using Test
+using Random
+using JLArrays
+using ArrayInterface
+
 const GROUP = get(ENV, "GROUP", "All")
 
 if GROUP == "QA"
@@ -10,12 +16,6 @@ if GROUP == "QA"
 end
 
 if GROUP in ("All", "Core")
-    using ResettableStacks
-    using Test
-    using Random
-    using JLArrays
-    using ArrayInterface
-
     S = ResettableStack{}(Tuple{Float64, Float64, Float64})
 
     push!(S, (0.5, 0.4, 0.3))
