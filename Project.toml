@@ -10,6 +10,8 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 ArrayInterface = "7"
 JLArrays = "0.2, 0.3"
 Random = "1"
+SafeTestsets = "0.1, 1"
+SciMLTesting = "1"
 StaticArrays = "1.9.18"
 Test = "1"
 julia = "1.10"
@@ -17,9 +19,10 @@ julia = "1.10"
 [extras]
 ArrayInterface = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
 JLArrays = "27aeb0d3-9eb9-45fb-866b-73c2ecf80fcb"
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "Random", "ArrayInterface", "JLArrays", "Pkg"]
+test = ["Test", "Random", "ArrayInterface", "JLArrays", "SafeTestsets", "SciMLTesting"]
