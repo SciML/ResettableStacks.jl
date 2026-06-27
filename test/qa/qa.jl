@@ -1,4 +1,3 @@
-using SafeTestsets
+using SciMLTesting, ResettableStacks, JET, Test
 
-@safetestset "JET static analysis" include("jet_tests.jl")
-@safetestset "ExplicitImports" include("explicitimports_tests.jl")
+run_qa(ResettableStacks; explicit_imports = true)
