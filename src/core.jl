@@ -31,7 +31,7 @@ val = pop!(S)  # returns 2.0
 reset!(S)      # efficiently resets the stack
 ```
 
-See also: [`reset!`](@ref), [`push!`](@ref), [`pop!`](@ref)
+See also: [`reset!`](@ref), `push!`, `pop!`
 """
 mutable struct ResettableStack{T, iip}
     data::Vector{T}
@@ -101,7 +101,7 @@ function iterate(S::ResettableStack, state = S.cur)
 end
 
 """
-    reset!(S::ResettableStack, force_reset=false)
+    reset!(S::ResettableStack, force_reset = false)
 
 Reset the stack to an empty state without deallocating the internal buffer.
 

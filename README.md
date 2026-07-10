@@ -26,7 +26,7 @@ For the latest development version:
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/SciML/ResettableStacks.jl")
+Pkg.add(url = "https://github.com/SciML/ResettableStacks.jl")
 ```
 
 ## Usage
