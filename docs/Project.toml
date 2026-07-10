@@ -1,0 +1,8 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+ResettableStacks = "ae5879a3-cd67-5da8-be7f-38c6eb64a37b"
+
+[compat]
+Documenter = "1"
+ResettableStacks = "1"
+julia = "1.10"
