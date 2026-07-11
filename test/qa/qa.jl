@@ -1,5 +1,3 @@
-using SciMLTesting, ResettableStacks, JET, Test
+using SciMLTesting, ResettableStacks, JET
 
-include("public_docs.jl")
-
-run_qa(ResettableStacks; explicit_imports = true)
+run_qa(ResettableStacks; explicit_imports = true, api_docs_kwargs = (; rendered = true))
