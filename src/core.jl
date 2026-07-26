@@ -1,34 +1,52 @@
 """
-    ResettableStack{T, iip}
+    ResettableStack{inplace}(::Type{T})
+    ResettableStack(::Type{T})
 
-A stack data structure that can be efficiently reset without triggering garbage collection.
+A reusable last-in, first-out stack whose storage survives [`reset!`](@ref).
 
-The stack maintains an internal buffer that is reused across resets, avoiding memory allocations
-and garbage collection overhead. Every `FULL_RESET_COUNT` resets, the internal buffer is resized
-if it has grown significantly larger than needed.
+`ResettableStack` keeps elements in an internal buffer and changes only its active length when it
+is reset. This avoids allocating a new buffer for each reuse. A periodic reset, or an explicit
+forced reset, can shrink a buffer that has grown substantially.
 
 # Type Parameters
-- `T`: The element type stored in the stack
-- `iip`: Boolean flag indicating if elements should be treated as in-place (true) or out-of-place (false)
+- `T`: Element type stored by the stack.
+- `inplace`: Whether the internal helper `copyat_or_push!` reuses mutable tuple components. The
+  public constructors default to `true`; use `ResettableStack{false}(T)` when the helper should
+  replace a stored element instead.
 
 # Fields
-- `data::Vector{T}`: Internal buffer storing stack elements
-- `cur::Int`: Current position in the stack (number of elements)
-- `numResets::Int`: Counter tracking the number of times `reset!` has been called
+- `data::Vector{T}`: Backing storage. Only indices `1:length(stack)` are active stack entries.
+- `cur::Int`: Number of active entries.
+- `numResets::Int`: Number of calls to [`reset!`](@ref).
 
 # Constructors
 ```julia
-ResettableStack(::Type{T})          # Creates a stack with iip=true
-ResettableStack{iip}(::Type{T})     # Creates a stack with specified iip flag
+ResettableStack(T)           # uses inplace = true
+ResettableStack{false}(T)    # replaces entries in copyat_or_push!
 ```
 
-# Example
-```julia
-S = ResettableStack{true}(Float64)
-push!(S, 1.0)
-push!(S, 2.0)
-val = pop!(S)  # returns 2.0
-reset!(S)      # efficiently resets the stack
+# Interface
+
+A `ResettableStack` supports the standard `Base` collection operations `push!`, `pop!`,
+`length`, `isempty`, `eltype`, and iteration. Iteration and `pop!` both visit active elements in
+last-in, first-out order. `pop!` must only be called when the stack is nonempty. After `reset!`,
+the stack is empty while its backing storage remains available for later pushes.
+
+# Examples
+```jldoctest
+julia> stack = ResettableStack(Float64);
+
+julia> push!(stack, 1.0); push!(stack, 2.0);
+
+julia> pop!(stack)
+2.0
+
+julia> collect(stack)
+1-element Vector{Float64}:
+ 1.0
+
+julia> reset!(stack); isempty(stack)
+true
 ```
 
 See also: [`reset!`](@ref), `push!`, `pop!`
@@ -101,26 +119,27 @@ function iterate(S::ResettableStack, state = S.cur)
 end
 
 """
-    reset!(S::ResettableStack, force_reset = false)
+    reset!(stack::ResettableStack, force_reset = false)
 
-Reset the stack to an empty state without deallocating the internal buffer.
+Reset `stack` to an empty state while preserving its backing storage for reuse.
 
-This allows the stack to be reused efficiently by overwriting previous data instead of
-allocating new memory. Every `FULL_RESET_COUNT` resets (default: 10000), or when
-`force_reset=true`, the internal buffer is resized to half its current size if it has
-grown larger than 5 elements, preventing unbounded memory growth.
+The next `push!` overwrites a previously stored entry when possible. Every
+`FULL_RESET_COUNT` calls, or when `force_reset` is `true`, a backing buffer larger than five
+entries is reduced to at most half its size. The operation returns `nothing`.
 
 # Arguments
-- `S::ResettableStack`: The stack to reset
-- `force_reset::Bool=false`: If true, forces a buffer resize regardless of reset count
+- `stack::ResettableStack`: Stack to empty.
+- `force_reset::Bool = false`: Whether to consider shrinking the backing buffer immediately.
 
-# Example
-```julia
-S = ResettableStack{true}(Float64)
-push!(S, 1.0)
-push!(S, 2.0)
-reset!(S)  # Stack is now empty but buffer is preserved
-push!(S, 3.0)  # Reuses existing buffer
+# Examples
+```jldoctest
+julia> stack = ResettableStack(Int); push!(stack, 1); push!(stack, 2);
+
+julia> reset!(stack); (isempty(stack), length(stack))
+(true, 0)
+
+julia> push!(stack, 3); pop!(stack)
+3
 ```
 """
 function reset!(S::ResettableStack, force_reset = false)
