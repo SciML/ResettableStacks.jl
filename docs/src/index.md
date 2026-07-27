@@ -28,5 +28,6 @@ tup = pop!(S)
 
 ```@docs
 ResettableStack
+copyat_or_push!
 reset!
 ```
