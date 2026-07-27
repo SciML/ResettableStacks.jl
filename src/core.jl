@@ -83,7 +83,28 @@ safecopy(x) = copy(x)
 safecopy(x::Union{Number, StaticArray}) = x
 safecopy(x::Nothing) = nothing
 
-# For DiffEqNoiseProcess S₂ fast updates
+"""
+    copyat_or_push!(stack::ResettableStack, value)
+
+Push `value` onto `stack`, reusing the active slot's mutable tuple components when possible.
+
+Unlike `push!`, this operation copies tuple components when it grows the backing storage
+and updates existing mutable components in place when the stack is reused. This preserves earlier
+stack entries while avoiding new allocations after [`reset!`](@ref). For a
+`ResettableStack{false}`, reused entries are replaced instead.
+
+# Example
+```jldoctest
+julia> stack = ResettableStack{true}(Tuple{Float64, Vector{Float64}, Nothing});
+
+julia> copyat_or_push!(stack, (0.5, [1.0, 2.0], nothing));
+
+julia> reset!(stack); copyat_or_push!(stack, (1.0, [3.0, 4.0], nothing));
+
+julia> pop!(stack)
+(1.0, [3.0, 4.0], nothing)
+```
+"""
 function copyat_or_push!(S::ResettableStack, x)
     if S.cur == length(S.data)
         S.cur += 1

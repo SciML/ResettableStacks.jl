@@ -10,5 +10,5 @@ module ResettableStacks
 
     include("core.jl")
 
-    export ResettableStack, reset!
+    export ResettableStack, copyat_or_push!, reset!
 end # module
